@@ -25,7 +25,7 @@ export class SuperAdminSeeder implements Seeder {
         first_name: 'Super',
         last_name: 'Admin',
         user_type: roleName,
-        email: 'superadmin@example.com',
+        email: 'superadmin@slotit.com',
         phone: '1234567890',
         password: 'securepassword',
         is_active: true,

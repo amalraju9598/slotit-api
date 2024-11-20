@@ -14,10 +14,11 @@ export class RoleSeeder implements Seeder {
   async seed(): Promise<any> {
     // Generate and insert  data
     const roles = [
+      { name: 'super_admin' },
+      { name: 'shop_owner' },
       { name: 'user' },
-      { name: 'superAdmin' },
-      { name: 'client' },
-      { name: 'staff' },
+      { name: 'shop_admin' },
+
     ];
 
     const rolePromises = roles.map(async (role) => {
