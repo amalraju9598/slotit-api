@@ -36,11 +36,10 @@ export class Role {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date;
 
-    /*
+  /*
    *
    * relationships
    */
-    @ManyToMany(() => User, user => user.roles)
-    users: User[];
-
+  @ManyToMany(() => User, (user) => user.roles)
+  users: User[];
 }

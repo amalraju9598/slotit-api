@@ -16,7 +16,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) { }
+  ) {}
   create(createUserDto: CreateUserDto): Promise<User> {
     const role = this.userRepository.create(createUserDto);
     return this.userRepository.save(role);
@@ -37,7 +37,6 @@ export class UsersService {
     });
   }
 
-
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
@@ -47,31 +46,35 @@ export class UsersService {
     return this.userRepository.findOneBy({ id });
   }
 
-
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
 
-  async findOneByParam(params: { [key: string]: any }, relations?: string[]): Promise<User | undefined> {
+  async findOneByParam(
+    params: { [key: string]: any },
+    relations?: string[],
+  ): Promise<User | undefined> {
     // Find and return the record based on dynamic parameters
     // return this.userRepository.findOneBy(params);
     return this.userRepository.findOne({
       where: params,
-      relations
+      relations,
     });
   }
 
-  async findWithRelations(params: { [key: string]: any }, relations: string[]): Promise<User | undefined> {
+  async findWithRelations(
+    params: { [key: string]: any },
+    relations: string[],
+  ): Promise<User | undefined> {
     // Find and return the record based on dynamic parameters
     return this.userRepository.findOne({
       where: params,
-      relations
+      relations,
     });
   }
 
   async addRoleToUser(user: User, role: Role): Promise<User> {
     user.roles.push(role);
     return await this.userRepository.save(user);
-
   }
 }

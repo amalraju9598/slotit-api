@@ -1,4 +1,3 @@
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Seeder } from 'nestjs-seeder';
@@ -12,12 +11,14 @@ export class SuperAdminSeeder implements Seeder {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
-  ) { }
+  ) {}
 
   async seed(): Promise<any> {
     // Generate and insert user data
     const roleName = 'superAdmin';
-    const superAdminRole = await this.userRepository.findOneBy({ user_type: roleName });
+    const superAdminRole = await this.userRepository.findOneBy({
+      user_type: roleName,
+    });
     const adminRole = await this.roleRepository.findOneBy({ name: roleName });
 
     if (!superAdminRole && adminRole) {

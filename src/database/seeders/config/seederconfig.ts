@@ -6,6 +6,8 @@ import { RoleSeeder } from '../roleseeder.seeder';
 import { User } from 'src/users/entities/user.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import { SuperAdminSeeder } from '../superadminseeder.seeder';
+import { Service } from 'src/services/entities/service.entity';
+import { ServiceSeeder } from '../serviceseeder.seeder';
 
 seeder({
   imports: [
@@ -21,12 +23,6 @@ seeder({
         autoLoadEntities: true,
       }),
     }),
-    TypeOrmModule.forFeature([
-      User,
-      Role,
-    ]),
+    TypeOrmModule.forFeature([User, Role, Service]),
   ],
-}).run([
-  RoleSeeder,
-  SuperAdminSeeder,
-]);
+}).run([RoleSeeder, SuperAdminSeeder, ServiceSeeder]);

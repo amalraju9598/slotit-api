@@ -27,7 +27,8 @@
     "typeorm:revert-migration": "npm run typeorm -- -d ./ormconfig.ts migration:revert",
     "seed": "node dist/src/database/seeders/config/seederconfig",
     "seed:refresh": "node dist/src/database/seeders/config/seederconfig --refresh",
-    "make:seeder": "node src/database/seeders/config/make-seeder.seeder.ts"
+    "make:seeder": "node src/database/seeders/config/make-seeder.seeder.ts",
+    "prettier": "npx prettier --write ."
   },
   "dependencies": {
     "@engagespot/node": "^1.7.0",

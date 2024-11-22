@@ -8,7 +8,7 @@ import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { FileUploadsModule } from './file_uploads/file_uploads.module';
-
+import { ServicesModule } from './services/services.module';
 
 @Module({
   imports: [
@@ -29,6 +29,7 @@ import { FileUploadsModule } from './file_uploads/file_uploads.module';
     AuthModule,
     CommonModule,
     FileUploadsModule,
+    ServicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
