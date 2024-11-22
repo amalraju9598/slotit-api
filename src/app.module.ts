@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { FileUploadsModule } from './file_uploads/file_uploads.module';
 import { ServicesModule } from './services/services.module';
+import { ShopsModule } from './shops/shops.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ServicesModule } from './services/services.module';
     CommonModule,
     FileUploadsModule,
     ServicesModule,
+    ShopsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

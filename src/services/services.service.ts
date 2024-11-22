@@ -36,7 +36,7 @@ export class ServicesService {
   }
 
   async update(id: string, updateServiceDto: UpdateServiceDto) {
-    const service = await this.findOne(id);
+    const service = await this.findOneById(id);
     Object.assign(service, updateServiceDto);
     await this.serviceRepository.save(service);
     return this.response.successResponse('Service updated');

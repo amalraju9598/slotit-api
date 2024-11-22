@@ -11,8 +11,8 @@ import {
   JoinTable,
   BeforeInsert,
 } from 'typeorm';
-@Entity('services')
-export class Service {
+@Entity('shops')
+export class Shop {
   @PrimaryColumn('varchar', { length: 36 })
   @Generated('uuid')
   id: string;
@@ -26,8 +26,8 @@ export class Service {
   @Column('varchar')
   image: string;
 
-  @Column('varchar')
-  identifier: string;
+  @Column('json')
+  address: object;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

@@ -12,8 +12,18 @@ export class ServiceSeeder implements Seeder {
 
   async seed(): Promise<any> {
     // Generate and insert  data
-    const services = [{ name: 'Hair Cut' }, { name: 'Shaving' }];
-
+    const services = [
+      { name: 'Hair Cut' },
+      { name: 'Shaving' },
+      { name: 'Beard Trim' },
+      { name: 'Hair Wash' },
+      { name: 'Facial' },
+      { name: 'Head Shave' },
+      { name: 'Hair Styling' },
+      { name: 'Hot Towel Shave' },
+      { name: 'Hair Color' },
+      { name: "Kids' Haircut" },
+    ];
     const servicePromises = services.map(async (service) => {
       const existingRole = await this.serviceRepository.findOneBy({
         name: service.name,
