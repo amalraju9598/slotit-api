@@ -11,15 +11,16 @@ import {
   PaginateQuery,
   paginate,
 } from 'nestjs-paginate';
+import { Shop } from 'src/shops/entities/shop.entity';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto): Promise<User> {
-    const role = this.userRepository.create(createUserDto);
-    return this.userRepository.save(role);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const user = this.userRepository.create(createUserDto);
+    return await this.userRepository.save(user);
   }
 
   findAll(query: PaginateQuery) {
@@ -76,5 +77,21 @@ export class UsersService {
   async addRoleToUser(user: User, role: Role): Promise<User> {
     user.roles.push(role);
     return await this.userRepository.save(user);
+  }
+
+  async createShopAdminUser(shop: Shop, password: string) {
+    const userData: CreateUserDto = {
+      first_name: shop.name,
+      last_name: null,
+      email: shop.contact_email, // Fixed typo
+      phone: shop.contact_phone,
+      password: password ? password : await this.generatePassword(shop.name), // Ensure `password` is defined and securely handled
+    };
+    await this.create(userData);
+  }
+
+  async generatePassword(inputString: string) {
+    const formattedString = inputString.replace(/\s+/g, '').toLowerCase();
+    return formattedString;
   }
 }

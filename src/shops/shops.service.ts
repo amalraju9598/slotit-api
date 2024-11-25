@@ -6,6 +6,8 @@ import { CreateShopDto } from './dto/create-shop.dto';
 import { UpdateShopDto } from './dto/update-shop.dto';
 import { ResponseService } from 'src/common/services/response.service';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
+import { UsersService } from 'src/users/users.service';
+import { RolesService } from 'src/roles/roles.service';
 
 @Injectable()
 export class ShopsService {
@@ -13,11 +15,18 @@ export class ShopsService {
     @InjectRepository(Shop)
     private readonly shopRepository: Repository<Shop>,
     private response: ResponseService,
+    private userService: UsersService,
+    private rolesService: RolesService,
   ) {}
 
   async create(createShopDto: CreateShopDto) {
     const newShop = this.shopRepository.create(createShopDto);
     const shop = await this.shopRepository.save(newShop);
+
+    const shopOwner = await this.userService.createShopAdminUser(
+      shop,
+      createShopDto.password,
+    );
 
     return this.response.successResponse('Shop created', shop);
   }

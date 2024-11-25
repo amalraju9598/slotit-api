@@ -36,6 +36,17 @@ export class CreateShopsTable1732300304408 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'contact_email',
+            type: 'varchar',
+            isUnique: true,
+            isNullable: true,
+          },
+          {
+            name: 'contact_phone',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'created_by',
             type: 'varchar',
             scale: 36,

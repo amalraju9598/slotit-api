@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsOptional, IsObject } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsObject,
+  IsMobilePhone,
+} from 'class-validator';
 
 export class CreateShopDto {
   @IsString()
@@ -16,4 +22,16 @@ export class CreateShopDto {
   @IsObject()
   @IsNotEmpty()
   address: object;
+
+  @IsString()
+  @IsNotEmpty()
+  contact_email: string;
+
+  @IsMobilePhone()
+  @IsNotEmpty()
+  contact_phone: string;
+
+  @IsString()
+  @IsOptional()
+  password: string;
 }

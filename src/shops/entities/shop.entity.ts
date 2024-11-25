@@ -29,6 +29,12 @@ export class Shop {
   @Column('json')
   address: object;
 
+  @Column('varchar', { unique: true, nullable: true })
+  contact_email: string;
+
+  @Column('varchar', { nullable: true })
+  contact_phone: string;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
