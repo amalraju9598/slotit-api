@@ -1,3 +1,4 @@
+import { ShopService } from 'src/shop-service/entities/shop-service.entity';
 import {
   Entity,
   Column,
@@ -10,6 +11,8 @@ import {
   ManyToMany,
   JoinTable,
   BeforeInsert,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 @Entity('services')
 export class Service {
@@ -41,4 +44,10 @@ export class Service {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date;
+
+  @OneToMany(() => ShopService, (shopService) => shopService.service)
+  @JoinColumn({
+    name: 'service_id',
+  })
+  shopServices: ShopService[];
 }

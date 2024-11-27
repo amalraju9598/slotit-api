@@ -11,6 +11,7 @@ import { FileUploadsModule } from './file_uploads/file_uploads.module';
 import { ServicesModule } from './services/services.module';
 import { ShopsModule } from './shops/shops.module';
 import { ShopRoomsModule } from './shop-rooms/shop-rooms.module';
+import { ShopServiceModule } from './shop-service/shop-service.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ShopRoomsModule } from './shop-rooms/shop-rooms.module';
     ServicesModule,
     ShopsModule,
     ShopRoomsModule,
+    ShopServiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

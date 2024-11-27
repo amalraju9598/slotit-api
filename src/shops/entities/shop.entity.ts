@@ -1,4 +1,5 @@
 import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
+import { ShopService } from 'src/shop-service/entities/shop-service.entity';
 import {
   Entity,
   Column,
@@ -53,7 +54,13 @@ export class Shop {
 
   @OneToMany(() => ShopRoom, (shopRoom) => shopRoom.shop)
   @JoinColumn({
-    name: 'customer_id',
+    name: 'shop_id',
   })
   rooms: ShopRoom[];
+
+  @OneToMany(() => ShopService, (shopService) => shopService.shop)
+  @JoinColumn({
+    name: 'shop_id',
+  })
+  shopServices: ShopService[];
 }

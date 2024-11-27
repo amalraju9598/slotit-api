@@ -4,7 +4,12 @@ import { UpdateShopRoomDto } from './dto/update-shop-room.dto';
 import { ShopRoom } from './entities/shop-room.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate, PaginateQuery } from 'nestjs-paginate';
+import {
+  FilterOperator,
+  FilterSuffix,
+  paginate,
+  PaginateQuery,
+} from 'nestjs-paginate';
 import { ResponseService } from 'src/common/services/response.service';
 import { ShopsService } from 'src/shops/shops.service';
 
@@ -30,7 +35,7 @@ export class ShopRoomsService {
       relations: [],
       defaultSortBy: [['id', 'DESC']],
       searchableColumns: ['name'],
-      filterableColumns: {},
+      filterableColumns: { shop_id: [FilterOperator.EQ, FilterSuffix.NOT] },
     });
   }
 
