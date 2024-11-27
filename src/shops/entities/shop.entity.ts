@@ -1,3 +1,4 @@
+import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
 import {
   Entity,
   Column,
@@ -10,6 +11,8 @@ import {
   ManyToMany,
   JoinTable,
   BeforeInsert,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 @Entity('shops')
 export class Shop {
@@ -47,4 +50,10 @@ export class Shop {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date;
+
+  @OneToMany(() => ShopRoom, (shopRoom) => shopRoom.shop)
+  @JoinColumn({
+    name: 'customer_id',
+  })
+  rooms: ShopRoom[];
 }

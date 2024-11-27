@@ -16,5 +16,6 @@ import { RolesModule } from 'src/roles/roles.module';
   ],
   controllers: [ShopsController],
   providers: [ShopsService],
+  exports: [ShopsService],
 })
 export class ShopsModule {}

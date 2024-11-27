@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateShopsTable1732300304408 implements MigrationInterface {
+export class CreateShopRoomsTable1732727502628 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'shops',
+        name: 'shop_rooms',
         columns: [
           {
             name: 'id',
@@ -14,6 +14,13 @@ export class CreateShopsTable1732300304408 implements MigrationInterface {
             isUnique: true,
             scale: 36,
             generationStrategy: 'uuid',
+          },
+          {
+            name: 'shop_id',
+            type: 'varchar',
+            scale: 36,
+            generationStrategy: 'uuid',
+            isNullable: true,
           },
           {
             name: 'name',
@@ -28,29 +35,6 @@ export class CreateShopsTable1732300304408 implements MigrationInterface {
           {
             name: 'image',
             type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'address',
-            type: 'json',
-            isNullable: true,
-          },
-          {
-            name: 'contact_email',
-            type: 'varchar',
-            isUnique: true,
-            isNullable: true,
-          },
-          {
-            name: 'contact_phone',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'created_by',
-            type: 'varchar',
-            scale: 36,
-            generationStrategy: 'uuid',
             isNullable: true,
           },
           {
@@ -73,11 +57,11 @@ export class CreateShopsTable1732300304408 implements MigrationInterface {
     );
 
     await queryRunner.query(
-      'ALTER TABLE `shops` ADD FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE',
+      'ALTER TABLE `shop_rooms` ADD FOREIGN KEY (shop_id) REFERENCES shops(id) ON DELETE CASCADE',
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('shops');
+    await queryRunner.dropTable('shop_rooms');
   }
 }

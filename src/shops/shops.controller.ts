@@ -17,27 +17,27 @@ export class ShopsController {
   constructor(private readonly shopsService: ShopsService) {}
 
   @Post()
-  create(@Body() createShopDto: CreateShopDto) {
-    return this.shopsService.create(createShopDto);
+  async create(@Body() createShopDto: CreateShopDto) {
+    return await this.shopsService.create(createShopDto);
   }
 
   @Get()
-  findAll(@Paginate() query: PaginateQuery) {
-    return this.shopsService.findAll(query);
+  async findAll(@Paginate() query: PaginateQuery) {
+    return await this.shopsService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.shopsService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.shopsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShopDto: UpdateShopDto) {
-    return this.shopsService.update(id, updateShopDto);
+  async update(@Param('id') id: string, @Body() updateShopDto: UpdateShopDto) {
+    return await this.shopsService.update(id, updateShopDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.shopsService.remove(id);
+  async remove(@Param('id') id: string) {
+    return await this.shopsService.remove(id);
   }
 }
