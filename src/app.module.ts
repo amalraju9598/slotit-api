@@ -12,6 +12,7 @@ import { ServicesModule } from './services/services.module';
 import { ShopsModule } from './shops/shops.module';
 import { ShopRoomsModule } from './shop-rooms/shop-rooms.module';
 import { ShopServiceModule } from './shop-service/shop-service.module';
+import { RoleUserModule } from './role-user/role-user.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ShopServiceModule } from './shop-service/shop-service.module';
     ShopsModule,
     ShopRoomsModule,
     ShopServiceModule,
+    RoleUserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

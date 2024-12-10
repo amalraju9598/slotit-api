@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Body,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateShopRoomDto } from './dto/create-shop-room.dto';
 import { UpdateShopRoomDto } from './dto/update-shop-room.dto';
 import { ShopRoom } from './entities/shop-room.entity';
@@ -12,6 +17,9 @@ import {
 } from 'nestjs-paginate';
 import { ResponseService } from 'src/common/services/response.service';
 import { ShopsService } from 'src/shops/shops.service';
+import { AddRemoveAdminDto } from './dto/add-remove-admin.dto';
+import { RoleUserService } from 'src/role-user/role-user.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class ShopRoomsService {
@@ -20,6 +28,8 @@ export class ShopRoomsService {
     private readonly shopRoomsRepository: Repository<ShopRoom>,
     private response: ResponseService,
     private shopsService: ShopsService,
+    private roleUerService: RoleUserService,
+    private userService: UsersService,
   ) {}
 
   async create(createShopRoomDto: CreateShopRoomDto) {
@@ -63,5 +73,22 @@ export class ShopRoomsService {
       throw new NotFoundException(`Shop room with ID "${id}" not found`);
     }
     return shopRoom;
+  }
+
+  async addAdmin(id: string, AddRemoveAdminDto: AddRemoveAdminDto) {
+    const { user_id } = AddRemoveAdminDto;
+
+    const shopRoom = await this.findOneById(id);
+    const user = await this.userService.findOneByParam({ id: user_id }, [
+      'roles',
+    ]);
+    if (!user) {
+      throw new NotFoundException('No user found');
+    }
+    if (user?.roles.length > 0) {
+      throw new UnprocessableEntityException('cant add multiple roles to user');
+    }
+    await this.roleUerService.addShopAdminRole(user, shopRoom);
+    return this.response.successResponse('Admin added');
   }
 }

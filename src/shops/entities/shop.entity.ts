@@ -1,3 +1,4 @@
+import { RoleUser } from 'src/role-user/entities/role-user.entity';
 import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
 import { ShopService } from 'src/shop-service/entities/shop-service.entity';
 import {
@@ -63,4 +64,7 @@ export class Shop {
     name: 'shop_id',
   })
   shopServices: ShopService[];
+
+  @OneToMany(() => RoleUser, (roleUser) => roleUser.shop)
+  roleUsers: RoleUser[];
 }

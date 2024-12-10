@@ -1,3 +1,4 @@
+import { RoleUser } from 'src/role-user/entities/role-user.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import {
   Entity,
@@ -8,6 +9,7 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 @Entity('shop_rooms')
 export class ShopRoom {
@@ -40,4 +42,7 @@ export class ShopRoom {
     name: 'shop_id',
   })
   shop: Shop;
+
+  @OneToMany(() => RoleUser, (roleUser) => roleUser.shopRoom)
+  roleUsers: RoleUser[];
 }

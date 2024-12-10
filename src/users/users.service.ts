@@ -12,13 +12,22 @@ import {
   paginate,
 } from 'nestjs-paginate';
 import { Shop } from 'src/shops/entities/shop.entity';
+import { RoleUserService } from 'src/role-user/role-user.service';
+import { ResponseService } from 'src/common/services/response.service';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private roleUserService: RoleUserService,
+    private responseService: ResponseService,
   ) {}
-  async create(createUserDto: CreateUserDto): Promise<User> {
+
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.createUser(createUserDto);
+    return this.responseService.successResponse('User Created', user);
+  }
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
     return await this.userRepository.save(user);
   }
@@ -87,7 +96,8 @@ export class UsersService {
       phone: shop.contact_phone,
       password: password ? password : await this.generatePassword(shop.name), // Ensure `password` is defined and securely handled
     };
-    await this.create(userData);
+    const user = await this.createUser(userData);
+    await this.roleUserService.addShopOwnerRole(user, shop);
   }
 
   async generatePassword(inputString: string) {
