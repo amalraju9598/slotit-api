@@ -8,6 +8,12 @@ import { Role } from 'src/roles/entities/role.entity';
 import { SuperAdminSeeder } from '../superadminseeder.seeder';
 import { Service } from 'src/services/entities/service.entity';
 import { ServiceSeeder } from '../serviceseeder.seeder';
+import { TimeSlot } from 'src/time-slots/entities/time-slot.entity';
+import { TimeSlotSeeder } from '../timeslotseeder.seeder';
+import { ShopService } from 'src/shop-service/entities/shop-service.entity';
+import { Shop } from 'src/shops/entities/shop.entity';
+import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
+import { RoleUser } from 'src/role-user/entities/role-user.entity';
 
 seeder({
   imports: [
@@ -23,6 +29,15 @@ seeder({
         autoLoadEntities: true,
       }),
     }),
-    TypeOrmModule.forFeature([User, Role, Service]),
+    TypeOrmModule.forFeature([
+      User,
+      Role,
+      Service,
+      ShopService,
+      ShopRoom,
+      Shop,
+      RoleUser,
+      TimeSlot,
+    ]),
   ],
-}).run([RoleSeeder, SuperAdminSeeder, ServiceSeeder]);
+}).run([RoleSeeder, SuperAdminSeeder, ServiceSeeder, TimeSlotSeeder]);

@@ -13,6 +13,7 @@ import { ShopsModule } from './shops/shops.module';
 import { ShopRoomsModule } from './shop-rooms/shop-rooms.module';
 import { ShopServiceModule } from './shop-service/shop-service.module';
 import { RoleUserModule } from './role-user/role-user.module';
+import { TimeSlotsModule } from './time-slots/time-slots.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { RoleUserModule } from './role-user/role-user.module';
     ShopRoomsModule,
     ShopServiceModule,
     RoleUserModule,
+    TimeSlotsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
