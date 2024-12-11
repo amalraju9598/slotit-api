@@ -1,3 +1,4 @@
+import { Booking } from 'src/bookings/entities/booking.entity';
 import { RoleUser } from 'src/role-user/entities/role-user.entity';
 import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
 import { ShopService } from 'src/shop-service/entities/shop-service.entity';

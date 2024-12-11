@@ -32,7 +32,7 @@ export class SuperAdminSeeder implements Seeder {
         is_active: true,
       });
 
-      //assigning all roles to superadmin
+      //assigning all roles to superAdmin
       superAdmin.roles = [adminRole];
 
       return this.userRepository.save(superAdmin);

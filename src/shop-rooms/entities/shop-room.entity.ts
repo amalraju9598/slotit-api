@@ -1,3 +1,4 @@
+import { Booking } from 'src/bookings/entities/booking.entity';
 import { RoleUser } from 'src/role-user/entities/role-user.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import {
@@ -45,4 +46,7 @@ export class ShopRoom {
 
   @OneToMany(() => RoleUser, (roleUser) => roleUser.shopRoom)
   roleUsers: RoleUser[];
+
+  @OneToMany(() => Booking, (Booking) => Booking.shopRoom)
+  bookings: Booking[];
 }

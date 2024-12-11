@@ -10,33 +10,37 @@ import {
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
+import { Booking } from './entities/booking.entity';
 
 @Controller('bookings')
 export class BookingsController {
-  constructor(private readonly bookingsService: BookingsService) {}
+  constructor(private readonly bookingService: BookingsService) {}
 
   @Post()
-  create(@Body() createBookingDto: CreateBookingDto) {
-    return this.bookingsService.create(createBookingDto);
+  async create(@Body() bookingData: Partial<Booking>): Promise<Booking> {
+    return await this.bookingService.create(bookingData);
   }
 
   @Get()
-  findAll() {
-    return this.bookingsService.findAll();
+  async findAll(): Promise<Booking[]> {
+    return await this.bookingService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookingsService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<Booking | null> {
+    return await this.bookingService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-    return this.bookingsService.update(+id, updateBookingDto);
+  async update(
+    @Param('id') id: string,
+    @Body() bookingData: Partial<Booking>,
+  ): Promise<Booking> {
+    return await this.bookingService.update(id, bookingData);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookingsService.remove(+id);
+  async delete(@Param('id') id: string): Promise<void> {
+    return await this.bookingService.delete(id);
   }
 }

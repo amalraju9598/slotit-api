@@ -30,8 +30,22 @@ export class CreateBookingsTable1733940831781 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'shop_service_id',
+            type: 'varchar',
+            scale: 36,
+            generationStrategy: 'uuid',
+            isNullable: true,
+          },
+          {
             name: 'note',
             type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'status',
+            type: 'enum',
+            enum: ['booked', 'completed', 'canceled'], // ENUM type for MySQL
+            default: "'booked'",
             isNullable: true,
           },
           {
@@ -80,6 +94,9 @@ export class CreateBookingsTable1733940831781 implements MigrationInterface {
 
     await queryRunner.query(
       'ALTER TABLE `bookings` ADD FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE',
+    );
+    await queryRunner.query(
+      'ALTER TABLE `bookings` ADD FOREIGN KEY (`shop_service_id`) REFERENCES `shop_services`(`id`) ON DELETE CASCADE',
     );
   }
 

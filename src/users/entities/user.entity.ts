@@ -11,8 +11,10 @@ import {
   ManyToMany,
   JoinTable,
   BeforeInsert,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Booking } from 'src/bookings/entities/booking.entity';
 
 @Entity('users')
 export class User {
@@ -86,4 +88,7 @@ export class User {
     },
   })
   roles: Role[];
+
+  @OneToMany(() => Booking, (Booking) => Booking.user)
+  bookings: Booking[];
 }

@@ -1,3 +1,4 @@
+import { Booking } from 'src/bookings/entities/booking.entity';
 import { Service } from 'src/services/entities/service.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import {
@@ -9,6 +10,7 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 @Entity('shop_services')
 export class ShopService {
@@ -56,4 +58,7 @@ export class ShopService {
     name: 'service_id',
   })
   service: Service;
+
+  @OneToMany(() => Booking, (Booking) => Booking.shopService)
+  bookings: Booking[];
 }
