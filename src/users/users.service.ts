@@ -23,17 +23,26 @@ export class UsersService {
     private responseService: ResponseService,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async createAdmin(createUserDto: CreateUserDto) {
+    createUserDto.user_type = 'shop_admin';
     const user = await this.createUser(createUserDto);
     return this.responseService.successResponse('User Created', user);
   }
+
+  async registerUser(createUserDto: CreateUserDto) {
+    createUserDto.user_type = 'user';
+    const user = await this.createUser(createUserDto);
+    await this.roleUserService.addUserRole(user);
+    return this.responseService.successResponse('User Created', user);
+  }
+
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
     return await this.userRepository.save(user);
   }
 
-  findAll(query: PaginateQuery) {
-    return paginate(query, this.userRepository, {
+  async listAdmins(query: PaginateQuery, shop_id: any) {
+    return await paginate(query, this.userRepository, {
       sortableColumns: ['id'],
       relations: [],
       defaultSortBy: [['id', 'DESC']],
@@ -42,7 +51,8 @@ export class UsersService {
         first_name: [FilterOperator.EQ, FilterSuffix.NOT],
       },
       where: {
-        user_type: In(['client']),
+        shop_id,
+        user_type: 'shop_admin',
       },
     });
   }
@@ -88,13 +98,15 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  async createShopAdminUser(shop: Shop, password: string) {
+  async createShopOwnerUser(shop: Shop, password: string) {
     const userData: CreateUserDto = {
       first_name: shop.name,
       last_name: null,
       email: shop.contact_email, // Fixed typo
       phone: shop.contact_phone,
-      password: password ? password : await this.generatePassword(shop.name), // Ensure `password` is defined and securely handled
+      password: password ? password : await this.generatePassword(shop.name), // Ensure `password` is defined and securely handled,
+      shop_id: shop.id,
+      user_type: 'shop_owner',
     };
     const user = await this.createUser(userData);
     await this.roleUserService.addShopOwnerRole(user, shop);

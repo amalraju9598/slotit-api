@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,14 +18,25 @@ import { Paginate, PaginateQuery } from 'nestjs-paginate';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.create(createUserDto);
+  @Post('create-admin')
+  async createAdmin(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.createAdmin(createUserDto);
   }
 
-  @Get()
-  findAll(@Paginate() query: PaginateQuery) {
-    return this.usersService.findAll(query);
+  @Post('register')
+  async registerUser(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.registerUser(createUserDto);
+  }
+
+  @Get('admins')
+  listAdmins(
+    @Query('shop_id') shop_id: string,
+    @Paginate() query: PaginateQuery,
+  ) {
+    if (!shop_id) {
+      throw new BadRequestException('shop_id required');
+    }
+    return this.usersService.listAdmins(query, shop_id);
   }
 
   @Get(':id')

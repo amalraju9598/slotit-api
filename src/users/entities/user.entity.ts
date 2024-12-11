@@ -20,6 +20,9 @@ export class User {
   @Generated('uuid')
   id: string;
 
+  @Column('varchar', { nullable: true })
+  shop_id: string;
+
   @Column('varchar')
   first_name: string;
 
@@ -27,10 +30,10 @@ export class User {
   last_name: string;
 
   @Column('enum', {
-    enum: ['superAdmin', 'client', 'user', 'staff'],
+    enum: ['super_admin', 'shop_owner', 'user', 'shop_admin'],
     nullable: true,
   })
-  user_type: 'superAdmin' | 'client' | 'user' | 'staff';
+  user_type: 'super_admin' | 'shop_owner' | 'user' | 'shop_admin';
 
   @Column('varchar', { unique: true, nullable: true })
   email: string;

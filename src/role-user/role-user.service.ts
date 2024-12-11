@@ -48,4 +48,13 @@ export class RoleUserService {
 
     return await this.saveInstance(roleUser);
   }
+
+  async addUserRole(user: User): Promise<RoleUser> {
+    const role = await this.rolesService.findOneByName('user');
+
+    const roleUser = await this.initiateInstance();
+    roleUser.role_id = role.id;
+    roleUser.user_id = user.id;
+    return await this.saveInstance(roleUser);
+  }
 }

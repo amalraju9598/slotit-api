@@ -23,7 +23,7 @@ export class ShopsService {
     const newShop = this.shopRepository.create(createShopDto);
     const shop = await this.shopRepository.save(newShop);
 
-    const shopOwner = await this.userService.createShopAdminUser(
+    const shopOwner = await this.userService.createShopOwnerUser(
       shop,
       createShopDto.password,
     );

@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateUsersTable1725027387420 implements MigrationInterface {
+export class CreateBookingsTable1733940831781 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'bookings',
         columns: [
           {
             name: 'id',
@@ -16,53 +16,55 @@ export class CreateUsersTable1725027387420 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           {
-            name: 'first_name',
+            name: 'user_id',
             type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'last_name',
-            type: 'varchar',
+            scale: 36,
+            generationStrategy: 'uuid',
             isNullable: true,
           },
           {
-            name: 'user_type',
-            type: 'enum',
-            enum: ['super_admin', 'shop_owner', 'user', 'shop_admin'], // ENUM type for MySQL
-            isNullable: true,
-          },
-          {
-            name: 'email',
+            name: 'shop_room_id',
             type: 'varchar',
-            isUnique: true,
+            scale: 36,
+            generationStrategy: 'uuid',
             isNullable: true,
           },
           {
-            name: 'phone',
+            name: 'note',
             type: 'varchar',
             isNullable: true,
           },
           {
-            name: 'password',
-            type: 'varchar',
+            name: 'time_from',
+            type: 'time',
+            default: 0,
             isNullable: true,
           },
           {
-            name: 'is_active',
-            type: 'boolean',
-            isNullable: false,
-            default: true,
+            name: 'time_to',
+            type: 'time',
+            default: 0,
+            isNullable: true,
+          },
+          {
+            name: 'date',
+            type: 'date',
+            isNullable: true,
+          },
+          {
+            name: 'meta',
+            type: 'json',
+            isNullable: true,
           },
           {
             name: 'created_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP', // MySQL syntax for default timestamp
+            default: 'now()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP', // MySQL syntax for default timestamp
-            onUpdate: 'CURRENT_TIMESTAMP', // Automatically update the timestamp
+            default: 'now()',
           },
           {
             name: 'deleted_at',
@@ -72,9 +74,16 @@ export class CreateUsersTable1725027387420 implements MigrationInterface {
         ],
       }),
     );
+    await queryRunner.query(
+      'ALTER TABLE `bookings` ADD FOREIGN KEY (shop_room_id) REFERENCES shop_rooms(id) ON DELETE CASCADE',
+    );
+
+    await queryRunner.query(
+      'ALTER TABLE `bookings` ADD FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE',
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('time_slots');
   }
 }

@@ -15,7 +15,7 @@ export class SuperAdminSeeder implements Seeder {
 
   async seed(): Promise<any> {
     // Generate and insert user data
-    const roleName = 'superAdmin';
+    const roleName = 'super_admin';
     const superAdminRole = await this.userRepository.findOneBy({
       user_type: roleName,
     });
@@ -28,7 +28,7 @@ export class SuperAdminSeeder implements Seeder {
         user_type: roleName,
         email: 'superadmin@slotit.com',
         phone: '1234567890',
-        password: 'securepassword',
+        password: 'securePassword',
         is_active: true,
       });
 
