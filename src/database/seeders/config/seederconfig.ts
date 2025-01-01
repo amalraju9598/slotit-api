@@ -14,6 +14,7 @@ import { ShopService } from 'src/shop-service/entities/shop-service.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
 import { RoleUser } from 'src/role-user/entities/role-user.entity';
+import { Booking } from 'src/bookings/entities/booking.entity';
 
 seeder({
   imports: [
@@ -38,6 +39,7 @@ seeder({
       Shop,
       RoleUser,
       TimeSlot,
+      Booking,
     ]),
   ],
 }).run([RoleSeeder, SuperAdminSeeder, ServiceSeeder, TimeSlotSeeder]);

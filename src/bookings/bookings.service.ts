@@ -5,6 +5,7 @@ import { ResponseService } from 'src/common/services/response.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Booking } from './entities/booking.entity';
 import { Repository } from 'typeorm';
+import { paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
 export class BookingsService {
@@ -13,14 +14,34 @@ export class BookingsService {
     private readonly bookingRepository: Repository<Booking>,
     private response: ResponseService,
   ) {}
-  async create(bookingData: Partial<Booking>): Promise<Booking> {
+  async create(bookingData: CreateBookingDto, user_id: string) {
+    bookingData.user_id = user_id;
     const booking = this.bookingRepository.create(bookingData);
-    return await this.bookingRepository.save(booking);
+    const savedBooking = await this.bookingRepository.save(booking);
+
+    return this.response.successResponse('booking recorded', savedBooking);
   }
 
-  async findAll(): Promise<Booking[]> {
-    return await this.bookingRepository.find({
-      relations: ['user', 'shopRoom'],
+  async findAll(query: PaginateQuery) {
+    return paginate(query, this.bookingRepository, {
+      sortableColumns: ['id'],
+      relations: ['shopRoom', 'shopService'],
+      defaultSortBy: [['id', 'DESC']],
+      searchableColumns: ['date'],
+      filterableColumns: {},
+    });
+  }
+
+  async findAllUser(query: PaginateQuery, user_id: string) {
+    return paginate(query, this.bookingRepository, {
+      sortableColumns: ['id'],
+      relations: ['shopRoom', 'shopService'],
+      defaultSortBy: [['id', 'DESC']],
+      searchableColumns: ['date'],
+      filterableColumns: {},
+      where: {
+        user_id,
+      },
     });
   }
 

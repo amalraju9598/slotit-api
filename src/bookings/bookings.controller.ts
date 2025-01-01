@@ -6,24 +6,35 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { Booking } from './entities/booking.entity';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('bookings')
 export class BookingsController {
   constructor(private readonly bookingService: BookingsService) {}
 
+  @UseGuards(AccessTokenGuard)
   @Post()
-  async create(@Body() bookingData: Partial<Booking>): Promise<Booking> {
-    return await this.bookingService.create(bookingData);
+  async create(@Body() bookingData: CreateBookingDto, @Req() req: Request) {
+    return await this.bookingService.create(bookingData, req['uid']);
   }
 
   @Get()
-  async findAll(): Promise<Booking[]> {
-    return await this.bookingService.findAll();
+  async findAll(@Paginate() query: PaginateQuery) {
+    return await this.bookingService.findAll(query);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('user')
+  async findAllUser(@Paginate() query: PaginateQuery, @Req() req: Request) {
+    return await this.bookingService.findAllUser(query, req['uid']);
   }
 
   @Get(':id')

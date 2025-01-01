@@ -30,10 +30,10 @@ export class Booking {
   note: string;
 
   @Column({ type: 'time', nullable: true, default: '00:00:00' })
-  timeFrom: string;
+  time_from: string;
 
   @Column({ type: 'time', nullable: true, default: '00:00:00' })
-  timeTo: string;
+  time_to: string;
 
   @Column({ type: 'date', nullable: true })
   date: string;

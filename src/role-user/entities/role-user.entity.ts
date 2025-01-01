@@ -6,11 +6,14 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  PrimaryColumn,
+  Generated,
 } from 'typeorm';
 
 @Entity('role_user')
 export class RoleUser {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('varchar', { length: 36 })
+  @Generated('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 36 })

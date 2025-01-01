@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Seeder } from 'nestjs-seeder';
+import { RoleUser } from 'src/role-user/entities/role-user.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -11,6 +12,8 @@ export class SuperAdminSeeder implements Seeder {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
+    @InjectRepository(RoleUser)
+    private readonly roleUserRepository: Repository<RoleUser>,
   ) {}
 
   async seed(): Promise<any> {
@@ -33,9 +36,14 @@ export class SuperAdminSeeder implements Seeder {
       });
 
       //assigning all roles to superAdmin
-      superAdmin.roles = [adminRole];
+      // superAdmin.roles = [adminRole];
 
-      return this.userRepository.save(superAdmin);
+      const user = await this.userRepository.save(superAdmin);
+
+      const roleUser = new RoleUser();
+      roleUser.role_id = adminRole.id;
+      roleUser.user_id = user.id;
+      return await this.roleUserRepository.save(roleUser);
     }
   }
 
