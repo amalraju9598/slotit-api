@@ -54,6 +54,13 @@ export class CreateShopServicesTable1732730875977
             default: 0.0,
           },
           {
+            name: 'strike_through_charge',
+            type: 'decimal',
+            precision: 20,
+            scale: 2,
+            default: 0.0,
+          },
+          {
             name: 'time',
             type: 'int',
             default: 0,

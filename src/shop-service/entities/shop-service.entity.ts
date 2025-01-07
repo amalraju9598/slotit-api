@@ -35,6 +35,9 @@ export class ShopService {
   @Column({ type: 'decimal', precision: 20, scale: 2, default: 0.0 })
   charge: number;
 
+  @Column({ type: 'decimal', precision: 20, scale: 2, default: 0.0 })
+  strike_through_charge: number;
+
   @Column({ type: 'int', default: 0 })
   time: number;
 

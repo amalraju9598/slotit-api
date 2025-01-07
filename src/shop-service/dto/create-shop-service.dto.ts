@@ -32,6 +32,10 @@ export class CreateShopServiceDto {
   @IsNumber()
   charge?: number;
 
+  @IsOptional()
+  @IsNumber()
+  strike_through_charge?: number;
+
   @IsNotEmpty()
   @IsNumber()
   time?: number;
