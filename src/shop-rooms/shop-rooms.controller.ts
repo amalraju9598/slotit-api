@@ -52,4 +52,12 @@ export class ShopRoomsController {
   ) {
     return await this.shopRoomsService.addAdmin(id, AddRemoveAdminDto);
   }
+
+  @Post(':id/remove-admin')
+  async removeAdmin(
+    @Param('id') id: string,
+    @Body() AddRemoveAdminDto: AddRemoveAdminDto,
+  ) {
+    return await this.shopRoomsService.removeAdmin(id, AddRemoveAdminDto);
+  }
 }

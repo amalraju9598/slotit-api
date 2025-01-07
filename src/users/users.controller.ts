@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   BadRequestException,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,7 +17,7 @@ import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post('create-admin')
   async createAdmin(@Body() createUserDto: CreateUserDto) {
@@ -47,6 +48,11 @@ export class UsersController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Post(':id/update-status')
+  updateStatus(@Param('id') id: string, @Body() request: Request) {
+    return this.usersService.updateStatus(id, request);
   }
 
   @Delete(':id')

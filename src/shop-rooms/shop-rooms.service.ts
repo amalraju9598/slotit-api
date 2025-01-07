@@ -91,4 +91,21 @@ export class ShopRoomsService {
     await this.roleUerService.addShopAdminRole(user, shopRoom);
     return this.response.successResponse('Admin added');
   }
+
+  async removeAdmin(id: string, AddRemoveAdminDto: AddRemoveAdminDto) {
+    const { user_id } = AddRemoveAdminDto;
+
+    const shopRoom = await this.findOneById(id);
+    const user = await this.userService.findOneByParam({ id: user_id }, [
+      'roles',
+    ]);
+    if (!user) {
+      throw new NotFoundException('No user found');
+    }
+    if (user?.roles.length < 0) {
+      throw new UnprocessableEntityException('cant delete admin roles from user');
+    }
+    await this.roleUerService.removeShopAdminRole(user, shopRoom);
+    return this.response.successResponse('Admin removed');
+  }
 }
