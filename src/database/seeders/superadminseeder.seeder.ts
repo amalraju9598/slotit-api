@@ -20,7 +20,7 @@ export class SuperAdminSeeder implements Seeder {
     // Generate and insert user data
     const roleName = 'super_admin';
     const superAdminRole = await this.userRepository.findOneBy({
-      user_type: roleName,
+      user_type: "super_admin",
     });
     const adminRole = await this.roleRepository.findOneBy({ name: roleName });
 
@@ -28,7 +28,7 @@ export class SuperAdminSeeder implements Seeder {
       const superAdmin = this.userRepository.create({
         first_name: 'Super',
         last_name: 'Admin',
-        user_type: roleName,
+        user_type: 'super_admin',
         email: 'superadmin@slotit.com',
         phone: '1234567890',
         password: 'securePassword',
