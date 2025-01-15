@@ -13,6 +13,7 @@ import {
   JoinColumn,
   OneToMany,
   ManyToMany,
+  JoinTable,
 } from 'typeorm';
 @Entity('shop_rooms')
 export class ShopRoom {
@@ -52,6 +53,18 @@ export class ShopRoom {
   @OneToMany(() => Booking, (Booking) => Booking.shopRoom)
   bookings: Booking[];
 
-  @ManyToMany(() => ShopService, (shopService) => shopService.shopRooms)
+  // @ManyToMany(() => ShopService, (shopService) => shopService.shopRooms)
+  // shopServices: ShopService[];
+
+  @ManyToMany(() => ShopService)
+  @JoinTable({
+    name: 'room_service',
+    joinColumn: {
+      name: 'shop_room_id',
+    },
+    inverseJoinColumn: {
+      name: 'shop_service_id',
+    },
+  })
   shopServices: ShopService[];
 }

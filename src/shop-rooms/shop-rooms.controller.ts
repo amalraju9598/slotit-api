@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ShopRoomsService } from './shop-rooms.service';
 import { CreateShopRoomDto } from './dto/create-shop-room.dto';
 import { UpdateShopRoomDto } from './dto/update-shop-room.dto';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { AddRemoveAdminDto } from './dto/add-remove-admin.dto';
+import { Request } from 'express';
 
 @Controller('shop-rooms')
 export class ShopRoomsController {
@@ -23,8 +25,8 @@ export class ShopRoomsController {
   }
 
   @Get()
-  async findAll(@Paginate() query: PaginateQuery) {
-    return await this.shopRoomsService.findAll(query);
+  async findAll(@Query() filter: Request, @Paginate() query: PaginateQuery) {
+    return await this.shopRoomsService.findAll(query, filter);
   }
 
   @Get(':id')

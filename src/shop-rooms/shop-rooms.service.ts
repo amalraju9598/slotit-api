@@ -7,7 +7,7 @@ import {
 import { CreateShopRoomDto } from './dto/create-shop-room.dto';
 import { UpdateShopRoomDto } from './dto/update-shop-room.dto';
 import { ShopRoom } from './entities/shop-room.entity';
-import { In, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   FilterOperator,
@@ -39,13 +39,28 @@ export class ShopRoomsService {
 
     return this.response.successResponse('Shop room created', shopRoom);
   }
-  async findAll(query: PaginateQuery) {
+  async findAll(query: PaginateQuery, filter) {
+    let where = {
+      id: Not(IsNull()),
+    };
+    if (filter.shop_service_ids) {
+      const ids = filter.shop_service_ids.split(',').filter((id) => id.trim()); // Remove empty values
+      if (ids.length > 0) {
+        where = {
+          //@ts-ignore
+          shopServices: {
+            id: In(ids),
+          },
+        };
+      }
+    }
     return paginate(query, this.shopRoomsRepository, {
       sortableColumns: ['id'],
-      relations: [],
+      relations: ['shopServices'],
       defaultSortBy: [['id', 'DESC']],
       searchableColumns: ['name'],
       filterableColumns: { shop_id: [FilterOperator.EQ, FilterSuffix.NOT] },
+      where,
     });
   }
 
