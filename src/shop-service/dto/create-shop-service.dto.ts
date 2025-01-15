@@ -5,7 +5,10 @@ import {
   IsObject,
   IsMobilePhone,
   IsNumber,
+  IsEnum,
+  IsArray,
 } from 'class-validator';
+import { Gender } from 'src/common/enums/gender.enum';
 
 export class CreateShopServiceDto {
   @IsString()
@@ -39,4 +42,12 @@ export class CreateShopServiceDto {
   @IsNotEmpty()
   @IsNumber()
   time?: number;
+
+  @IsEnum(Gender)
+  @IsOptional()
+  gender: Gender;
+
+  @IsOptional()
+  @IsArray()
+  shop_room_ids: any[];
 }

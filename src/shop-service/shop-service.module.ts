@@ -6,10 +6,12 @@ import { ShopService } from './entities/shop-service.entity';
 import { CommonModule } from 'src/common/common.module';
 import { ShopsModule } from 'src/shops/shops.module';
 import { ServicesModule } from 'src/services/services.module';
+import { ShopRoomsModule } from 'src/shop-rooms/shop-rooms.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ShopService]),
+    ShopRoomsModule,
     CommonModule,
     ShopsModule,
     ServicesModule,

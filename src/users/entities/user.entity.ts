@@ -15,6 +15,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Booking } from 'src/bookings/entities/booking.entity';
+import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
 
 @Entity('users')
 export class User {
@@ -88,6 +89,18 @@ export class User {
     },
   })
   roles: Role[];
+
+  @ManyToMany(() => ShopRoom)
+  @JoinTable({
+    name: 'role_user',
+    joinColumn: {
+      name: 'user_id',
+    },
+    inverseJoinColumn: {
+      name: 'shop_room_id',
+    },
+  })
+  shopRooms: ShopRoom[];
 
   @OneToMany(() => Booking, (Booking) => Booking.user)
   bookings: Booking[];

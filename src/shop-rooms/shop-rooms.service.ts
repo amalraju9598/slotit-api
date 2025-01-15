@@ -7,7 +7,7 @@ import {
 import { CreateShopRoomDto } from './dto/create-shop-room.dto';
 import { UpdateShopRoomDto } from './dto/update-shop-room.dto';
 import { ShopRoom } from './entities/shop-room.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   FilterOperator,
@@ -103,9 +103,19 @@ export class ShopRoomsService {
       throw new NotFoundException('No user found');
     }
     if (user?.roles.length < 0) {
-      throw new UnprocessableEntityException('cant delete admin roles from user');
+      throw new UnprocessableEntityException(
+        'cant delete admin roles from user',
+      );
     }
     await this.roleUerService.removeShopAdminRole(user, shopRoom);
     return this.response.successResponse('Admin removed');
+  }
+
+  async findRoomsByIds(ids: any[]) {
+    return await this.shopRoomsRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
   }
 }

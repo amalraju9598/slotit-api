@@ -13,6 +13,7 @@ import {
   paginate,
   PaginateQuery,
 } from 'nestjs-paginate';
+import { ShopRoomsService } from 'src/shop-rooms/shop-rooms.service';
 
 @Injectable()
 export class ShopServiceService {
@@ -22,9 +23,11 @@ export class ShopServiceService {
     private response: ResponseService,
     private shopsService: ShopsService,
     private servicesService: ServicesService,
+    private shopRoomsService: ShopRoomsService,
   ) {}
 
   async create(createShopServiceDto: CreateShopServiceDto) {
+    const { shop_room_ids } = createShopServiceDto;
     const shop = await this.shopsService.findOneById(
       createShopServiceDto.shop_id,
     );
@@ -34,6 +37,11 @@ export class ShopServiceService {
 
     const newShopService =
       this.shopServicesRepository.create(createShopServiceDto);
+    if (shop_room_ids) {
+      const shopRooms =
+        await this.shopRoomsService.findRoomsByIds(shop_room_ids);
+      newShopService.shopRooms = shopRooms;
+    }
     const shopService = await this.shopServicesRepository.save(newShopService);
 
     return this.response.successResponse('Shop service created', shopService);
@@ -61,7 +69,14 @@ export class ShopServiceService {
     updateShopServiceDto: UpdateShopServiceDto,
   ): Promise<any> {
     const shopService = await this.findOneById(id);
+    const { shop_room_ids } = updateShopServiceDto;
+
     Object.assign(shopService, updateShopServiceDto);
+    if (shop_room_ids) {
+      const shopRooms =
+        await this.shopRoomsService.findRoomsByIds(shop_room_ids);
+      shopService.shopRooms = shopRooms;
+    }
     await this.shopServicesRepository.save(shopService);
     return this.response.successResponse('Shop service updated');
   }
@@ -75,6 +90,7 @@ export class ShopServiceService {
   async findOneById(id: string): Promise<ShopService> {
     const shopService = await this.shopServicesRepository.findOne({
       where: { id },
+      relations: ['shopRooms'],
     });
     if (!shopService) {
       throw new NotFoundException(`Shop service with ID "${id}" not found`);

@@ -17,7 +17,7 @@ export class RoleUserService {
     private readonly roleUserRepository: Repository<RoleUser>,
     private response: ResponseService,
     private rolesService: RolesService,
-  ) { }
+  ) {}
 
   async initiateInstance(): Promise<RoleUser> {
     return new RoleUser();
@@ -60,8 +60,8 @@ export class RoleUserService {
 
   async removeShopAdminRole(user: User, shopRoom: ShopRoom) {
     await this.roleUserRepository.delete({
-      user_id: user.id, shop_room_id: shopRoom.id
-    })
-
+      user_id: user.id,
+      shop_room_id: shopRoom.id,
+    });
   }
 }

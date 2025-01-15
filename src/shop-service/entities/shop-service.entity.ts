@@ -1,5 +1,7 @@
 import { Booking } from 'src/bookings/entities/booking.entity';
+import { Gender } from 'src/common/enums/gender.enum';
 import { Service } from 'src/services/entities/service.entity';
+import { ShopRoom } from 'src/shop-rooms/entities/shop-room.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import {
   Entity,
@@ -11,6 +13,8 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 @Entity('shop_services')
 export class ShopService {
@@ -41,6 +45,13 @@ export class ShopService {
   @Column({ type: 'int', default: 0 })
   time: number;
 
+  @Column({
+    type: 'enum',
+    enum: Gender,
+    default: Gender.COMMON,
+  })
+  gender: Gender;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
@@ -64,4 +75,16 @@ export class ShopService {
 
   @OneToMany(() => Booking, (Booking) => Booking.shopService)
   bookings: Booking[];
+
+  @ManyToMany(() => ShopRoom)
+  @JoinTable({
+    name: 'room_service',
+    joinColumn: {
+      name: 'shop_service_id',
+    },
+    inverseJoinColumn: {
+      name: 'shop_room_id',
+    },
+  })
+  shopRooms: ShopRoom[];
 }

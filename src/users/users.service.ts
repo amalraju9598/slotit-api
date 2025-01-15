@@ -21,7 +21,7 @@ export class UsersService {
     private userRepository: Repository<User>,
     private roleUserService: RoleUserService,
     private responseService: ResponseService,
-  ) { }
+  ) {}
 
   async createAdmin(createUserDto: CreateUserDto) {
     createUserDto.user_type = 'shop_admin';
@@ -44,7 +44,7 @@ export class UsersService {
   async listAdmins(query: PaginateQuery, shop_id: any) {
     return await paginate(query, this.userRepository, {
       sortableColumns: ['id'],
-      relations: [],
+      relations: ['shopRooms'],
       defaultSortBy: [['id', 'DESC']],
       searchableColumns: ['first_name', 'last_name'],
       filterableColumns: {
@@ -120,11 +120,10 @@ export class UsersService {
   async updateStatus(id: string, request) {
     const user = await this.findOneByParam({ id });
     if (!user) {
-      throw new NotFoundException("user not found");
+      throw new NotFoundException('user not found');
     }
     user.is_active = request.is_active ?? false;
     await this.userRepository.save(user);
     return this.responseService.successResponse('User updated', user);
-
   }
 }

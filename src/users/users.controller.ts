@@ -17,7 +17,7 @@ import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('create-admin')
   async createAdmin(@Body() createUserDto: CreateUserDto) {

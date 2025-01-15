@@ -1,5 +1,6 @@
 import { Booking } from 'src/bookings/entities/booking.entity';
 import { RoleUser } from 'src/role-user/entities/role-user.entity';
+import { ShopService } from 'src/shop-service/entities/shop-service.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import {
   Entity,
@@ -11,6 +12,7 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  ManyToMany,
 } from 'typeorm';
 @Entity('shop_rooms')
 export class ShopRoom {
@@ -49,4 +51,7 @@ export class ShopRoom {
 
   @OneToMany(() => Booking, (Booking) => Booking.shopRoom)
   bookings: Booking[];
+
+  @ManyToMany(() => ShopService, (shopService) => shopService.shopRooms)
+  shopServices: ShopService[];
 }

@@ -18,5 +18,6 @@ import { UsersModule } from 'src/users/users.module';
   ],
   controllers: [ShopRoomsController],
   providers: [ShopRoomsService],
+  exports: [ShopRoomsService],
 })
 export class ShopRoomsModule {}
