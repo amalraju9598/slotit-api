@@ -60,4 +60,12 @@ export class BookingsService {
   async delete(id: string): Promise<void> {
     await this.bookingRepository.softDelete(id);
   }
+
+  async createBookingAdmin(bookingData: CreateBookingDto, user_id: string) {
+    bookingData.user_id = user_id;
+    const booking = this.bookingRepository.create(bookingData);
+    const savedBooking = await this.bookingRepository.save(booking);
+
+    return this.response.successResponse('booking recorded', savedBooking);
+  }
 }

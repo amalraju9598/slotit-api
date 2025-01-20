@@ -29,6 +29,9 @@ export class Booking {
   @Column({ type: 'varchar', nullable: true })
   note: string;
 
+  @Column({ type: 'boolean', nullable: true })
+  is_online: string;
+
   @Column({ type: 'time', nullable: true, default: '00:00:00' })
   time_from: string;
 

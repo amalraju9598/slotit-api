@@ -26,6 +26,17 @@ export class BookingsController {
     return await this.bookingService.create(bookingData, req['uid']);
   }
 
+  @Post('admin')
+  async createBookingAdmin(
+    @Body() bookingData: CreateBookingDto,
+    @Req() req: Request,
+  ) {
+    return await this.bookingService.createBookingAdmin(
+      bookingData,
+      req['uid'],
+    );
+  }
+
   @Get()
   async findAll(@Paginate() query: PaginateQuery) {
     return await this.bookingService.findAll(query);

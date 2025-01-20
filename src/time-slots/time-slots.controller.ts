@@ -25,6 +25,11 @@ export class TimeSlotsController {
   async findAll(@Paginate() query: PaginateQuery) {
     return await this.timeSlotsService.findAll(query);
   }
+
+  @Get('admin')
+  async findAllAdmin(@Paginate() query: PaginateQuery) {
+    return await this.timeSlotsService.findAllAdmin(query);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.timeSlotsService.findOne(+id);
